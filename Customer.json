@@ -1,20 +1,14 @@
-[
-  {
-    "$type": "ConsoleApp.Models.Customer, ConsoleApp",
-    "Id": 0,
-    "FirstName": "jh",
-    "LastName": "fj",
-    "PhoneNumber": "fgh",
-    "Email": "er",
-    "Address": "eg"
-  },
-  {
-    "$type": "ConsoleApp.Models.Customer, ConsoleApp",
-    "Id": 0,
-    "FirstName": "ch",
-    "LastName": "cgh",
-    "PhoneNumber": "ch",
-    "Email": "ch",
-    "Address": ""
-  }
-]
+{
+  "$type": "System.Collections.Generic.List`1[[ConsoleApp.Interfaces.ICustomer, ConsoleApp]], System.Private.CoreLib",
+  "$values": [
+    {
+      "$type": "ConsoleApp.Models.Customer, ConsoleApp",
+      "Id": 0,
+      "FirstName": "Hong",
+      "LastName": "Nguyen",
+      "PhoneNumber": "073",
+      "Email": "Hong@gmail.com",
+      "Address": "träd"
+    }
+  ]
+}

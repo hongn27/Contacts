@@ -1,5 +1,6 @@
 ﻿using ConsoleApp.Interfaces;
 using ConsoleApp.Models;
+using System;
 using System.Diagnostics;
 
 namespace ConsoleApp.Services
@@ -50,7 +51,7 @@ namespace ConsoleApp.Services
                 {
                     //Menyn (menuIndex)
                     Console.Clear();
-                    Console.WriteLine("---Welcome to the Customer List---\n");
+                    Console.WriteLine("---Customer List---\n");
 
                     for (int i = 1; i <= 5; i++)
                     {
@@ -58,7 +59,6 @@ namespace ConsoleApp.Services
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
                             Console.Write("->");
-                            Console.ResetColor();
 
                         }
                         else if (i == menuIndex + 1 && i == 5)
@@ -133,26 +133,28 @@ namespace ConsoleApp.Services
             try
             {
                 Console.Clear();
-                Console.WriteLine($"---{GetMenuTitle("4")}---");
+                Console.WriteLine($"---- {GetMenuTitle("4")} ----");
 
-                //Tar bort kunden från listan med sökmetod email
+                //Tar bort kunden från listan med sökmetod "email"
                 Console.Write("Enter the email of the customer you want to remove: ");
                 var email = Console.ReadLine()!.ToLower();
 
                 //Kunden hittas med email
-                var customer = _customerService.GetCustomersFromList().FirstOrDefault(c => c.Email.Equals (email, StringComparison.OrdinalIgnoreCase));
+                var customer = _customerService.GetCustomersFromList().FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
 
                 //Om kunden hittas, ta bort den från listan
                 if (customer != null)
                 {
-                    Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");
+                    Console.WriteLine($"FirstName: {customer.FirstName}");
+                    Console.WriteLine($"LastName: {customer.LastName}");
                     Console.WriteLine($"Phone: {customer.PhoneNumber}");
                     Console.WriteLine($"Email: {customer.Email}");
                     Console.WriteLine($"Adress: {customer.Address}");
-                    Console.WriteLine("------------");
+                    Console.WriteLine("---------------------");
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("Are your sure you want to remove this customer from the list? (y/n): ");
                     var message = Console.ReadLine()!;
+                    message = message.ToUpper();
                     Console.ResetColor();
 
                     if (message == "Y")
@@ -164,6 +166,7 @@ namespace ConsoleApp.Services
                         if (isRemoved)
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("---- Customer Removed ----\n");
                             Console.ResetColor();
                             ConfirmContiue();
                         }
@@ -172,7 +175,7 @@ namespace ConsoleApp.Services
                         else
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("--- Contact Not Removed ---");
+                            Console.WriteLine("---- Customer Not Removed ----\n");
                             Console.ResetColor();
                             ConfirmContiue();
                         }
@@ -182,31 +185,34 @@ namespace ConsoleApp.Services
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Customer not found!");
+                    Console.WriteLine("Customer not found");
                     Console.ResetColor();
                     ConfirmContiue();
                 }
             }
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
+        //Söka efter kunden med sökmetod "email"
         private void ShowCustomerMenu()
         {
             try
             {
                 Console.Clear();
                 Console.WriteLine($"--- {GetMenuTitle("3")} ---\n");
-                Console.Write("Enter the email of the customer you want to view: ");
+                Console.Write("Enter first name of the customer you want to view: ");
                 var email = Console.ReadLine()!;
 
+                //var customer = _customerService.GetCustomersFromList().FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
                 var customer = _customerService.GetCustomersFromList().FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
 
                 if (customer != null)
                 {
-                    Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");
+                    Console.WriteLine($"FirstName: {customer.FirstName}");
+                    Console.WriteLine($"LastName: {customer.LastName}");
                     Console.WriteLine($"Phone: {customer.PhoneNumber}");
                     Console.WriteLine($"Email: {customer.Email}");
                     Console.WriteLine($"Adress: {customer.Address}");
-                    Console.WriteLine("------------");
+                    Console.WriteLine("----------------------------");
 
                     ConfirmContiue();
                 }
@@ -259,7 +265,7 @@ namespace ConsoleApp.Services
                 if (customers.Count() == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("No customer found!");
+                    Console.WriteLine("No customer found");
                     Console.ResetColor();
                     ConfirmContiue();
                     return;
@@ -269,11 +275,12 @@ namespace ConsoleApp.Services
                 {
                     foreach (var customer in customers)
                     {
-                        Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");
+                        Console.WriteLine($"FirstName: {customer.FirstName}");
+                        Console.WriteLine($"LastName: {customer.LastName}");
                         Console.WriteLine($"Phone: {customer.PhoneNumber}");
                         Console.WriteLine($"Email: {customer.Email}");
                         Console.WriteLine($"Adress: {customer.Address}");
-                        Console.WriteLine("------------");
+                        Console.WriteLine("------------------------");
                     }
                 }
                 ConfirmContiue();
@@ -286,35 +293,34 @@ namespace ConsoleApp.Services
         }
         public void AddCustomerMenu()
         {
-            //Registrerar ny kund
+            //Lägg till ny kund
             ICustomer customer = new Customer();
 
             Console.Clear();
 
-            //Registrerar kundens uppgifter
+            //Lägg till kundens uppgifter
             Console.WriteLine($"--- {GetMenuTitle("1")} ---");
 
-            Console.WriteLine("Enter first name:");
+            Console.Write("Enter first name:");
             customer.FirstName = Console.ReadLine()!;
 
-            Console.WriteLine("Enter last name:");
+            Console.Write("Enter last name:");
             customer.LastName = Console.ReadLine()!;
 
-
-            Console.WriteLine("Enter phone number:");
+            Console.Write("Enter phone number:");
             customer.PhoneNumber = Console.ReadLine()!;
 
-            Console.WriteLine("Enter email:");
+            Console.Write("Enter email:");
             customer.Email = Console.ReadLine()!;
 
-            Console.WriteLine("Enter Address:");
+            Console.Write("Enter Address:");
             customer.Address = Console.ReadLine()!;
 
             //Lägg till kunden i listan
             _customerService.AddToList(customer);
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("--- Customer added successfully ---");
+            Console.WriteLine("--- Customer added ---");
             Console.ResetColor();
 
             Console.WriteLine("Would you like to add another customer? (y/n)");

@@ -78,13 +78,13 @@ public class CustomerService : ICustomerService
     {
         try
         {
-            //Hämtar kunden från kundlistan
-            GetCustomerFromList();
+            //Hämtar kunderna från kundlistan
+            GetCustomersFromList();
 
             //Hitta kunden med sökmetod email
             var customer = _customerList.FirstOrDefault(x => x.Email == email);
 
-            //kunden finns, tar bort den
+            //Kunden finns, tar bort den
             if (customer != null)
             {
                 //Tar bort kunden
